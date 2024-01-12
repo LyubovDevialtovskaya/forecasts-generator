@@ -28,7 +28,7 @@ function getRandomInt(min, max) {
     const forecastItemTemplate = document.getElementById("forecast-item");
     const clone = document.importNode(forecastItemTemplate.content, true);
     clone.querySelector("h3").textContent = randomPrediction;
-    clone.querySelector("p").textContent = `Вероятность сбытия: ${randomProbability}%`;
+    clone.querySelector("p").textContent = `Вероятность события: ${randomProbability}%`;
     forecastsList.prepend(clone);
   });
   
