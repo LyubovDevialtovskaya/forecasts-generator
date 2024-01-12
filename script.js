@@ -1,15 +1,34 @@
-/* Генерация предсказания должна происходить при клике на кнопку «предсказать судьбу» */
 
-/* Заранее заготовь 3-5 предсказаний и в зависимости от того, как лягут карты судьбы (или что скажет Math.random) показывай их пользователю */
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
+  const predictions = [
+    "Скоро выходные! ",
+    "Ты сможешь реализовать свои планы!",
+    "Случится чудо!",
+    "Тебя ждёт сюрприз!",
+    "Удели время себе.",
+  ];
+  
+  const forecastBtn = document.querySelector(".forecast-btn");
+  const currentForecast = document.querySelector(".current-forecast");
+  const forecastsList = document.querySelector(".forecasts");
+  
+  forecastBtn.addEventListener("click", () => {
 
-/* Подставляй текст нового предсказания в .current-forecast h1 */
+    const randomIndex = getRandomInt(0, predictions.length - 1);
+    const randomPrediction = predictions[randomIndex];
+    const randomProbability = getRandomInt(0, 100);
+  
 
-/* Показывай процент вероятности, с которым предсказание сбудется — в верстке это .current-forecast p */
-
-/* Данный процент также нужно генерировать автоматически, он может принимать значения от 0 до 100% */
-
-/* Совет: заведи функцию-хелпер, которая будет заниматься только генерацией данных в диапазоне от min до max и используй ее где нужно */
-
-/* При генерации нового предсказания старое предсказание должно добавляться в начало списка «Мои предсказания» — .forecasts  */
-
-/* Для добавления предсказания в список воспользуйся шаблоном forecast-item */
+    currentForecast.querySelector("h1").textContent = randomPrediction;
+    currentForecast.querySelector("p").textContent = `Вероятность сбытия: ${randomProbability}%`;
+  
+    const forecastItemTemplate = document.getElementById("forecast-item");
+    const clone = document.importNode(forecastItemTemplate.content, true);
+    clone.querySelector("h3").textContent = randomPrediction;
+    clone.querySelector("p").textContent = `Вероятность сбытия: ${randomProbability}%`;
+    forecastsList.prepend(clone);
+  });
+  
