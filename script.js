@@ -1,15 +1,48 @@
-/* Генерация предсказания должна происходить при клике на кнопку «предсказать судьбу» */
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-/* Заранее заготовь 3-5 предсказаний и в зависимости от того, как лягут карты судьбы (или что скажет Math.random) показывай их пользователю */
+function generateRandomPrediction() {
+  const randomIndex = getRandomInt(0, predictions.length - 1);
+  return predictions[randomIndex];
+}
 
-/* Подставляй текст нового предсказания в .current-forecast h1 */
+function generateRandomProbability() {
+  return getRandomInt(0, 100);
+}
 
-/* Показывай процент вероятности, с которым предсказание сбудется — в верстке это .current-forecast p */
+function displayCurrentForecast() {
+  const randomPrediction = generateRandomPrediction();
+  const randomProbability = generateRandomProbability();
 
-/* Данный процент также нужно генерировать автоматически, он может принимать значения от 0 до 100% */
+  currentForecast.querySelector("h1").textContent = randomPrediction;
+  currentForecast.querySelector("p").textContent = `Вероятность сбытия: ${randomProbability}%`;
+}
 
-/* Совет: заведи функцию-хелпер, которая будет заниматься только генерацией данных в диапазоне от min до max и используй ее где нужно */
+function addForecastToList(prediction, probability) {
+  const forecastItemTemplate = document.getElementById("forecast-item");
+  const clone = document.importNode(forecastItemTemplate.content, true);
+  clone.querySelector("h3").textContent = prediction;
+  clone.querySelector("p").textContent = `Вероятность события: ${probability}%`;
+  forecastsList.prepend(clone);
+}
 
-/* При генерации нового предсказания старое предсказание должно добавляться в начало списка «Мои предсказания» — .forecasts  */
+const predictions = [
+  "Скоро выходные! ",
+  "Ты сможешь реализовать свои планы!",
+  "Случится чудо!",
+  "Тебя ждёт сюрприз!",
+  "Удели время себе.",
+];
 
-/* Для добавления предсказания в список воспользуйся шаблоном forecast-item */
+const forecastBtn = document.querySelector(".forecast-btn");
+const currentForecast = document.querySelector(".current-forecast");
+const forecastsList = document.querySelector(".forecasts");
+
+forecastBtn.addEventListener("click", () => {
+  const randomPrediction = generateRandomPrediction();
+  const randomProbability = generateRandomProbability();
+
+  displayCurrentForecast();
+  addForecastToList(randomPrediction, randomProbability);
+});
